@@ -1,0 +1,324 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Header -->
+
+    <div class="mb-4">
+        <h2 class="fw-bold">QuickMove Operations Dashboard</h2>
+        <p class="text-muted">
+            Monitor and manage relocation operations efficiently.
+        </p>
+    </div>
+
+    <!-- KPI Cards -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-lg">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <small class="text-muted">Total Relocations</small>
+                    <h2 class="fw-bold">{{ total_relocations }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <small class="text-muted">Active Relocations</small>
+                    <h2 class="fw-bold text-primary">{{ active_relocations }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <small class="text-muted">Completed Moves</small>
+                    <h2 class="fw-bold text-success">{{ completed_relocations }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <small class="text-muted">Pending Tasks</small>
+                    <h2 class="fw-bold text-danger">{{ pending_tasks }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <small class="text-muted">At-Risk Relocations</small>
+                    <h2 class="fw-bold text-warning">{{ total_risks }}</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Main Section -->
+
+    <div class="row">
+
+        <!-- Recent Relocations -->
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+                        Recent Relocations
+                    </h5>
+
+                </div>
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead class="table-light">
+
+                           <tr>
+
+    <th>Customer</th>
+
+    <th>Route</th>
+
+    <th>Move Date</th>
+
+    <th>Assigned Ops</th>
+
+    <th>Status</th>
+
+    <th>AI Risk</th>
+
+    <th></th>
+
+</tr>
+                        </thead>
+
+                        <tbody>
+
+                        {% for relocation in recent_relocations %}
+
+                            <tr>
+
+                                <td>
+
+                                    <strong>{{ relocation.customer_name }}</strong>
+
+                                </td>
+
+                                <td>
+
+                                    {{ relocation.current_city }}
+
+                                    →
+
+                                    {{ relocation.destination_city }}
+
+                                </td>
+
+                                <td>
+
+                                    {{ relocation.move_date }}
+
+                                </td>
+
+                                <td>
+
+                                    {{ relocation.assigned_ops }}
+
+                                </td>
+
+                                <td>
+
+                                    {% if relocation.status == "Completed" %}
+
+                                        <span class="badge bg-success">
+
+                                            Completed
+
+                                        </span>
+
+                                    {% elif relocation.status == "In Progress" %}
+
+                                        <span class="badge bg-warning text-dark">
+
+                                            In Progress
+
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="badge bg-primary">
+
+                                            Planning
+
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+
+                                <td>
+
+    <span class="badge bg-{{ relocation.risk_badge }}">
+
+        {{ relocation.risk }}
+
+    </span>
+
+</td>
+
+                                <td>
+
+                                    <a href="{% url 'relocation_detail' relocation.id %}"
+
+                                       class="btn btn-outline-primary btn-sm">
+
+                                        View Details
+
+                                    </a>
+
+                                </td>
+
+                            </tr>
+
+                        {% empty %}
+
+                            <tr>
+
+                                <td colspan="6" class="text-center py-5">
+
+                                    No relocations available.
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <div class="card-footer text-end">
+
+                    <a href="{% url 'relocations' %}"
+
+                       class="btn btn-outline-primary">
+
+                        View All Relocations →
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Operations Summary -->
+
+        <div class="col-lg-4">
+
+            <div class="card shadow-sm">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Operations Summary
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+
+                        <span>Planning</span>
+
+                        <span class="badge rounded-pill bg-primary">
+
+                            {{ planning }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+
+                        <span>In Progress</span>
+
+                        <span class="badge rounded-pill bg-warning text-dark">
+
+                            {{ progress }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+
+                        <span>Completed</span>
+
+                        <span class="badge rounded-pill bg-success">
+
+                            {{ completed }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+
+                        <span>Pending Tasks</span>
+
+                        <span class="badge rounded-pill bg-danger">
+
+                            {{ pending_tasks }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <span>Today's Tasks</span>
+
+                        <span class="badge rounded-pill bg-info text-dark">
+
+                            {{ today_tasks }}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

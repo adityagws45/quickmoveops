@@ -1,0 +1,311 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+
+        <h2 class="fw-bold">
+            Relocation Details
+        </h2>
+
+        <p class="text-muted">
+            Customer information and relocation overview
+        </p>
+
+    </div>
+
+    <a href="{% url 'relocations' %}" class="btn btn-secondary">
+
+        <i class="bi bi-arrow-left"></i>
+
+        Back
+
+    </a>
+
+</div>
+
+<div class="row">
+
+    <!-- Left Section -->
+
+    <div class="col-lg-8">
+
+        <!-- Customer Information -->
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header bg-primary text-white">
+
+                <h5 class="mb-0">
+                    Customer Information
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <strong>Customer Name</strong>
+
+                        <p>{{ relocation.customer_name }}</p>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <strong>Phone</strong>
+
+                        <p>{{ relocation.phone }}</p>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <strong>Email</strong>
+
+                        <p>{{ relocation.email|default:"-" }}</p>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <strong>Assigned Operations Executive</strong>
+
+                        <p>{{ relocation.assigned_ops }}</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Relocation Details -->
+
+        <div class="card shadow-sm">
+
+            <div class="card-header bg-success text-white">
+
+                <h5 class="mb-0">
+
+                    Relocation Details
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <strong>Current City</strong>
+
+                        <p>{{ relocation.current_city }}</p>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <strong>Destination City</strong>
+
+                        <p>{{ relocation.destination_city }}</p>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <strong>Move Date</strong>
+
+                        <p>{{ relocation.move_date }}</p>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <strong>Household Size</strong>
+
+                        <p>{{ relocation.household_size }}</p>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <strong>Property Type</strong>
+
+                        <p>{{ relocation.property_type }}</p>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <strong>Status</strong>
+
+                        <br>
+
+                        {% if relocation.status == "Completed" %}
+
+                            <span class="badge bg-success">
+
+                                Completed
+
+                            </span>
+
+                        {% elif relocation.status == "In Progress" %}
+
+                            <span class="badge bg-warning text-dark">
+
+                                In Progress
+
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge bg-primary">
+
+                                Planning
+
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Right Section -->
+
+    <div class="col-lg-4">
+
+        <!-- Progress -->
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header bg-dark text-white">
+
+                <h5 class="mb-0">
+
+                    Workflow Progress
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <h3 class="text-center">
+
+                    {{ completed_tasks }}/{{ total_tasks }}
+
+                </h3>
+
+                <p class="text-center text-muted">
+
+                    Tasks Completed
+
+                </p>
+
+                <div class="progress mb-3" style="height:25px;">
+
+                    <div class="progress-bar bg-success"
+
+                         style="width: {{ progress }}%;">
+
+                        {{ progress }}%
+
+                    </div>
+
+                </div>
+
+                <a href="{% url 'task_list' relocation.id %}"
+
+                   class="btn btn-primary w-100">
+
+                    View Workflow
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- AI Operational Risk -->
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header bg-danger text-white">
+
+                <h5 class="mb-0">
+
+                    AI Operational Risk Assessment
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="alert alert-{{ relocation.risk_badge }}">
+
+                    <h4>
+
+                        {{ relocation.risk }}
+
+                    </h4>
+
+                    <p class="mb-0">
+
+                        {{ relocation.risk_reason }}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Notes -->
+
+        <div class="card shadow-sm">
+
+            <div class="card-header bg-secondary text-white">
+
+                <h5 class="mb-0">
+
+                    Notes
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <p>
+
+                    {{ relocation.notes|default:"No notes available." }}
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

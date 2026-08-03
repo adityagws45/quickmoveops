@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Header -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+                Relocation Workflow
+            </h2>
+
+            <p class="text-muted mb-0">
+                {{ relocation.customer_name }}
+                |
+                {{ relocation.current_city }}
+                →
+                {{ relocation.destination_city }}
+            </p>
+
+        </div>
+
+        <a href="{% url 'relocation_detail' relocation.id %}"
+           class="btn btn-outline-secondary">
+
+            ← Back
+
+        </a>
+
+    </div>
+
+
+    <!-- Progress -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between">
+
+                <h5 class="mb-0">
+                    Workflow Progress
+                </h5>
+
+                <strong>
+                    {{ completed_tasks }}/{{ total_tasks }}
+                    Tasks Completed
+                </strong>
+
+            </div>
+
+            <div class="progress mt-3" style="height:24px;">
+
+                <div class="progress-bar bg-success"
+                     role="progressbar"
+                     style="width: {{ progress }}%;">
+
+                    {{ progress }}%
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Workflow Table -->
+
+    <div class="card shadow-sm">
+
+        <div class="card-header bg-primary text-white">
+
+            <h5 class="mb-0">
+
+                Standard Relocation Workflow
+
+            </h5>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th width="5%">#</th>
+
+                        <th width="20%">Workflow</th>
+
+                        <th width="45%">Task</th>
+
+                        <th width="30%">Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for task in tasks %}
+
+                    <tr>
+
+                        <td>
+
+                            {{ task.sequence }}
+
+                        </td>
+
+                        <td>
+
+                            {{ task.workflow }}
+
+                        </td>
+
+                        <td>
+
+                            <strong>
+
+                                {{ task.title }}
+
+                            </strong>
+
+                        </td>
+
+                        <td>
+
+                            <form method="POST"
+                                  action="{% url 'update_task_status' task.id %}">
+
+                                {% csrf_token %}
+
+                                <select
+                                    name="status"
+                                    class="form-select"
+                                    onchange="this.form.submit()">
+
+                                    <option value="Pending"
+                                        {% if task.status == "Pending" %}selected{% endif %}>
+                                        Pending
+                                    </option>
+
+                                    <option value="In Progress"
+                                        {% if task.status == "In Progress" %}selected{% endif %}>
+                                        In Progress
+                                    </option>
+
+                                    <option value="Completed"
+                                        {% if task.status == "Completed" %}selected{% endif %}>
+                                        Completed
+                                    </option>
+
+                                </select>
+
+                            </form>
+
+                        </td>
+
+                    </tr>
+
+                {% empty %}
+
+                    <tr>
+
+                        <td colspan="4"
+                            class="text-center py-5">
+
+                            No workflow tasks found.
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

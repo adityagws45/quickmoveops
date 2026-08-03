@@ -1,0 +1,335 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="mb-4">
+
+        <h2 class="fw-bold">
+            Operations Queue
+        </h2>
+
+        <p class="text-muted">
+            Manage relocations based on move schedule.
+        </p>
+
+    </div>
+
+
+    <!-- Today's Relocations -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-danger text-white">
+
+            <h5 class="mb-0">
+                Today's Relocations
+            </h5>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>Customer</th>
+
+                        <th>Route</th>
+
+                        <th>Assigned Ops</th>
+
+                        <th>Status</th>
+
+                        <th>Risk</th>
+
+                        <th></th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for relocation in today_relocations %}
+
+                    <tr>
+
+                        <td>{{ relocation.customer_name }}</td>
+
+                        <td>
+
+                            {{ relocation.current_city }}
+
+                            →
+
+                            {{ relocation.destination_city }}
+
+                        </td>
+
+                        <td>{{ relocation.assigned_ops }}</td>
+
+                        <td>{{ relocation.status }}</td>
+
+                        <td>
+
+                            <span class="badge bg-{{ relocation.risk_badge }}{% if relocation.risk_badge == 'warning' %} text-dark{% endif %}">
+                                {{ relocation.risk }}
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <a href="{% url 'task_list' relocation.id %}"
+                               class="btn btn-sm btn-primary">
+
+                                Workflow
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                {% empty %}
+
+                    <tr>
+
+                        <td colspan="6" class="text-center">
+
+                            No relocations today.
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Upcoming -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-warning">
+
+            <h5 class="mb-0">
+
+                Upcoming (Next 7 Days)
+
+            </h5>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>Date</th>
+
+                        <th>Customer</th>
+
+                        <th>Route</th>
+
+                        <th>Status</th>
+
+                        <th>Risk</th>
+
+                        <th></th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for relocation in upcoming_relocations %}
+
+                    <tr>
+
+                        <td>{{ relocation.move_date }}</td>
+
+                        <td>{{ relocation.customer_name }}</td>
+
+                        <td>
+
+                            {{ relocation.current_city }}
+
+                            →
+
+                            {{ relocation.destination_city }}
+
+                        </td>
+
+                        <td>{{ relocation.status }}</td>
+
+                        <td>
+
+                            <span class="badge bg-{{ relocation.risk_badge }}{% if relocation.risk_badge == 'warning' %} text-dark{% endif %}">
+                                {{ relocation.risk }}
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <a href="{% url 'task_list' relocation.id %}"
+
+                               class="btn btn-sm btn-outline-primary">
+
+                                Workflow
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                {% empty %}
+
+                    <tr>
+
+                        <td colspan="6" class="text-center">
+
+                            No upcoming relocations.
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Future -->
+
+    <div class="card shadow-sm">
+
+        <div class="card-header bg-info text-white">
+
+            <h5 class="mb-0">
+
+                Future Relocations
+
+            </h5>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>Date</th>
+
+                        <th>Customer</th>
+
+                        <th>Route</th>
+
+                        <th>Status</th>
+
+                        <th>Risk</th>
+
+                        <th></th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for relocation in future_relocations %}
+
+                    <tr>
+
+                        <td>{{ relocation.move_date }}</td>
+
+                        <td>{{ relocation.customer_name }}</td>
+
+                        <td>
+
+                            {{ relocation.current_city }}
+
+                            →
+
+                            {{ relocation.destination_city }}
+
+                        </td>
+
+                        <td>{{ relocation.status }}</td>
+
+                        <td>
+
+                            <span class="badge bg-{{ relocation.risk_badge }}{% if relocation.risk_badge == 'warning' %} text-dark{% endif %}">
+                                {{ relocation.risk }}
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <a href="{% url 'task_list' relocation.id %}"
+
+                               class="btn btn-sm btn-outline-primary">
+
+                                Workflow
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                {% empty %}
+
+                    <tr>
+
+                        <td colspan="6" class="text-center">
+
+                            No future relocations.
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,248 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+        <h2 class="fw-bold">Relocations</h2>
+        <p class="text-muted mb-0">
+            Manage all active and completed relocations
+        </p>
+    </div>
+
+    <a href="{% url 'new_relocation' %}" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i>
+        New Relocation
+    </a>
+
+</div>
+
+<div class="card shadow-sm">
+
+    <div class="card-body">
+
+        <div class="row mb-4">
+
+            <div class="col-md-5">
+
+                <input
+                    type="text"
+                    class="form-control"
+                    id="relocation-search"
+                    placeholder="Search customer, phone, route, or assigned ops...">
+
+            </div>
+
+            <div class="col-md-3">
+
+                <select class="form-select" id="status-filter">
+
+                    <option value="">All Status</option>
+                    <option value="Planning">Planning</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Completed">Completed</option>
+
+                </select>
+
+            </div>
+
+            <div class="col-md-4 text-end">
+
+                <span class="badge bg-primary p-2">
+
+                    Total Relocations :
+                    {{ relocations|length }}
+
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>Customer</th>
+                        <th>Route</th>
+                        <th>Move Date</th>
+                        <th>Assigned Ops</th>
+                        <th>Status</th>
+                        <th>Risk</th>
+                        <th width="220">Actions</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for relocation in relocations %}
+
+                    <tr data-relocation-row data-status="{{ relocation.status }}">
+
+                        <td>
+
+                            <strong>
+
+                                {{ relocation.customer_name }}
+
+                            </strong>
+
+                            <br>
+
+                            <small class="text-muted">
+
+                                {{ relocation.phone }}
+
+                            </small>
+
+                        </td>
+
+                        <td>
+
+                            {{ relocation.current_city }}
+
+                            <i class="bi bi-arrow-right"></i>
+
+                            {{ relocation.destination_city }}
+
+                        </td>
+
+                        <td>
+
+                            {{ relocation.move_date }}
+
+                        </td>
+
+                        <td>
+
+                            {{ relocation.assigned_ops }}
+
+                        </td>
+
+                        <td>
+
+                            {% if relocation.status == "Completed" %}
+
+                                <span class="badge bg-success">
+
+                                    Completed
+
+                                </span>
+
+                            {% elif relocation.status == "In Progress" %}
+
+                                <span class="badge bg-warning text-dark">
+
+                                    In Progress
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-primary">
+
+                                    Planning
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-{{ relocation.risk_badge }}{% if relocation.risk_badge == 'warning' %} text-dark{% endif %}">
+                                {{ relocation.risk }}
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <div class="d-flex gap-2">
+
+                                <a href="{% url 'relocation_detail' relocation.id %}"
+                                   class="btn btn-outline-primary btn-sm">
+
+                                    <i class="bi bi-eye"></i>
+
+                                    Details
+
+                                </a>
+
+                                <a href="{% url 'task_list' relocation.id %}"
+                                   class="btn btn-success btn-sm">
+
+                                    <i class="bi bi-list-check"></i>
+
+                                    Workflow
+
+                                </a>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                {% empty %}
+
+                    <tr>
+
+                        <td colspan="7" class="text-center py-5">
+
+                            <h5>No relocations found</h5>
+
+                            <p class="text-muted">
+
+                                Click <strong>New Relocation</strong> to create your first relocation.
+
+                            </p>
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const searchInput = document.getElementById("relocation-search");
+    const statusFilter = document.getElementById("status-filter");
+    const relocationRows = document.querySelectorAll("[data-relocation-row]");
+
+    function filterRelocations() {
+        const query = searchInput.value.trim().toLowerCase();
+        const selectedStatus = statusFilter.value;
+
+        relocationRows.forEach((row) => {
+            const matchesSearch = row.textContent.toLowerCase().includes(query);
+            const matchesStatus = !selectedStatus || row.dataset.status === selectedStatus;
+
+            row.hidden = !(matchesSearch && matchesStatus);
+        });
+    }
+
+    searchInput.addEventListener("input", filterRelocations);
+    statusFilter.addEventListener("change", filterRelocations);
+</script>
+{% endblock %}

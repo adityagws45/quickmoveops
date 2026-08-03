@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row">
+
+    <div class="col-lg-8">
+
+        <div class="card p-4 mb-4">
+
+            <div class="d-flex justify-content-between">
+
+                <div>
+
+                    <h3>{{ relocation.customer_name }}</h3>
+
+                    <p class="text-muted mb-0">
+                        {{ relocation.current_city }} →
+                        {{ relocation.destination_city }}
+                    </p>
+
+                </div>
+
+                <div>
+
+                    <span class="badge bg-primary">
+                        {{ relocation.status }}
+                    </span>
+
+                </div>
+
+            </div>
+
+            <hr>
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <p><strong>Phone</strong></p>
+                    <p>{{ relocation.phone }}</p>
+
+                    <p><strong>Email</strong></p>
+                    <p>{{ relocation.email }}</p>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <p><strong>Move Date</strong></p>
+                    <p>{{ relocation.move_date }}</p>
+
+                    <p><strong>Assigned Ops</strong></p>
+                    <p>{{ relocation.assigned_ops }}</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card p-4">
+
+            <h4 class="mb-3">
+
+                Relocation Checklist
+
+            </h4>
+
+            <table class="table table-hover">
+
+                <thead>
+
+                    <tr>
+
+                        <th>#</th>
+
+                        <th>Workflow</th>
+
+                        <th>Task</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for task in relocation.tasks.all %}
+
+                    <tr>
+
+                        <td>{{ task.sequence }}</td>
+
+                        <td>{{ task.workflow }}</td>
+
+                        <td>{{ task.title }}</td>
+
+                        <td>
+
+                            {% if task.status == "Completed" %}
+
+                                <span class="badge bg-success">
+
+                                    Completed
+
+                                </span>
+
+                            {% elif task.status == "In Progress" %}
+
+                                <span class="badge bg-warning">
+
+                                    In Progress
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-secondary">
+
+                                    Pending
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-4">
+
+        <div class="card p-4">
+
+            <h5>Relocation Summary</h5>
+
+            <hr>
+
+            <p>
+                <strong>Current City</strong><br>
+                {{ relocation.current_city }}
+            </p>
+
+            <p>
+                <strong>Destination City</strong><br>
+                {{ relocation.destination_city }}
+            </p>
+
+            <p>
+                <strong>Household Size</strong><br>
+                {{ relocation.household_size }}
+            </p>
+
+            <p>
+                <strong>Property Type</strong><br>
+                {{ relocation.property_type }}
+            </p>
+
+            <p>
+                <strong>Notes</strong><br>
+                {{ relocation.notes }}
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

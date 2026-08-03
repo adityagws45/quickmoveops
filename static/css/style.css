@@ -1,0 +1,207 @@
+/* Google Font */
+
+body{
+
+    font-family:'Poppins',sans-serif;
+
+    background:#f4f6f9;
+
+}
+
+/* Sidebar */
+
+.sidebar{
+
+    width:260px;
+
+    min-height:100vh;
+
+    background:#212529;
+
+    position:fixed;
+
+    left:0;
+
+    top:0;
+
+}
+
+.sidebar h3{
+
+    color:white;
+
+}
+
+.sidebar-link{
+
+    display:block;
+
+    color:#ced4da;
+
+    text-decoration:none;
+
+    padding:14px 18px;
+
+    margin-bottom:8px;
+
+    border-radius:12px;
+
+    transition:.3s;
+
+    font-size:15px;
+
+}
+
+.sidebar-link:hover{
+
+    background:#0d6efd;
+
+    color:white;
+
+    transform:translateX(5px);
+
+}
+
+.sidebar-link i{
+
+    width:22px;
+
+}
+
+/* Main */
+
+.main-content{
+
+    margin-left:260px;
+
+    width:calc(100% - 260px);
+
+}
+
+/* Navbar */
+
+.navbar{
+
+    height:75px;
+
+    border-bottom:1px solid #e9ecef;
+
+}
+
+/* Cards */
+
+.card{
+
+    border:none;
+
+    border-radius:18px;
+
+    box-shadow:0 4px 18px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-4px);
+
+}
+
+/* Dashboard Stats */
+
+.stat-card{
+
+    padding:25px;
+
+}
+
+.stat-card h6{
+
+    color:#6c757d;
+
+    font-size:14px;
+
+}
+
+.stat-card h2{
+
+    font-weight:700;
+
+    margin-top:10px;
+
+}
+
+/* Tables */
+
+.table{
+
+    vertical-align:middle;
+
+}
+
+.table th{
+
+    border:none;
+
+    color:#6c757d;
+
+}
+
+.table td{
+
+    border-top:1px solid #f1f1f1;
+
+}
+
+/* Badges */
+
+.badge{
+
+    padding:8px 12px;
+
+    border-radius:10px;
+
+    font-size:13px;
+
+}
+
+/* Buttons */
+
+.btn{
+
+    border-radius:10px;
+
+}
+
+/* Search */
+
+.form-control{
+
+    border-radius:10px;
+
+}
+
+.form-control:focus{
+
+    box-shadow:none;
+
+    border-color:#0d6efd;
+
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#adb5bd;
+
+    border-radius:20px;
+
+}

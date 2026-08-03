@@ -1,0 +1,163 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>QuickMove Operations</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+
+<div class="d-flex">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <div class="sidebar bg-dark text-white">
+
+        <div class="p-4 text-center border-bottom">
+
+            <h3 class="fw-bold">
+                <i class="bi bi-truck"></i>
+                QuickMove
+            </h3>
+
+            <small class="text-light">
+                Operations System
+            </small>
+
+        </div>
+
+        <div class="p-3">
+
+            <a href="{% url 'dashboard' %}" class="sidebar-link">
+                <i class="bi bi-speedometer2 me-2"></i>
+                Dashboard
+            </a>
+
+            <a href="{% url 'operations_queue' %}" class="sidebar-link">
+                <i class="bi bi-list-task me-2"></i>
+                Operations Queue
+            </a>
+
+            <a href="{% url 'relocations' %}" class="sidebar-link">
+                <i class="bi bi-truck me-2"></i>
+                Relocations
+            </a>
+
+            <a href="{% url 'new_relocation' %}" class="sidebar-link">
+                <i class="bi bi-plus-circle me-2"></i>
+                New Relocation
+            </a>
+
+            <a href="{% url 'analytics' %}" class="sidebar-link">
+                <i class="bi bi-bar-chart me-2"></i>
+                Analytics
+            </a>
+
+            
+        </div>
+
+    </div>
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <div class="main-content flex-grow-1">
+
+        <!-- TOP NAVBAR -->
+
+        <nav class="navbar navbar-expand-lg bg-white shadow-sm px-4">
+
+            <div class="container-fluid">
+
+                <h4 class="fw-bold mb-0">
+                    QuickMove Operations Dashboard
+                </h4>
+
+                <div class="ms-auto">
+
+                    <div class="dropdown">
+
+                        <button
+                            class="btn btn-light dropdown-toggle"
+                            data-bs-toggle="dropdown">
+
+                            <i class="bi bi-person-circle me-1"></i>
+
+                            Admin
+
+                        </button>
+
+                        <ul class="dropdown-menu dropdown-menu-end">
+
+                            <li>
+
+                                <a class="dropdown-item" href="#">
+
+                                    <i class="bi bi-person me-2"></i>
+
+                                    Profile
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <form method="post" action="{% url 'logout' %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="dropdown-item">
+                                        <i class="bi bi-box-arrow-right me-2"></i>
+                                        Logout
+                                    </button>
+                                </form>
+
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+        <!-- PAGE CONTENT -->
+
+        <div class="container-fluid py-4">
+
+            {% block content %}
+
+            {% endblock %}
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+{% block extra_js %}{% endblock %}
+
+</body>
+
+</html>
